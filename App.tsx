@@ -1,11 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import type { ReactElement } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import type { Todo } from './types/Todo';
 
-export default function App() {
+export default function App(): ReactElement {
+  // Define a variable named `exampleTodo` whose data type is `Todo`.
+  const exampleTodo: Todo = {
+    id: '1',
+    text: 'Buy groceries',
+    completed: false,
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text>{exampleTodo.text}</Text>
+      <Text>
+        {/* Use a conditional statement */}
+        {exampleTodo.completed ? 'Completed' : 'Not completed'}
+      </Text>
     </View>
   );
 }
@@ -13,8 +24,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
