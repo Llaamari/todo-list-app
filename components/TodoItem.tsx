@@ -1,23 +1,37 @@
 
 import type { ReactElement } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Pressable, Text, StyleSheet } from 'react-native';
 import type { Todo } from '../types/Todo';
 
 // This specifies what data can be passed to the TodoItem component.
 type TodoItemProps = {
   todo: Todo;
+  // TypeScript definition
+  onToggle: (id: string) => void;
 };
 
 // Define the function's return type as ReactElement.
 export default function TodoItem({
   todo,
+  onToggle,
 }: TodoItemProps): ReactElement {
-    return (
-        <View style={styles.container}>
-            {/* Displays the text of the assignment written by the user. */}
-            <Text style={styles.text}>{todo.text}</Text>
-        </View>
-    );
+  return (
+    // Pressable makes the entire task list printable.
+    <Pressable
+      style={styles.container}
+      onPress={() => onToggle(todo.id)}
+    >
+      <Text
+        // Conditional style
+        style={[
+          styles.text,
+          todo.completed && styles.completedText,
+        ]}
+      >
+        {todo.text}
+      </Text>
+    </Pressable>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -28,5 +42,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+  },
+  // The line-through strikes through the text and the gray color helps distinguish completed tasks from those still in progress.
+  completedText: {
+    textDecorationLine: 'line-through',
+    color: '#888',
   },
 });
