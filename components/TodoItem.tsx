@@ -22,11 +22,14 @@ export default function TodoItem({
       onPress={() => onToggle(todo.id)}
     >
       <Text
+        // Tells React the component's identity.
+        key={`${todo.id}-${todo.completed}`}
         // Conditional style
-        style={[
-          styles.text,
-          todo.completed && styles.completedText,
-        ]}
+        style={{
+          fontSize: 18,
+          color: todo.completed ? '#888888' : '#000000',
+          textDecorationLine: todo.completed ? 'line-through' : 'none',
+        }}
       >
         {todo.text}
       </Text>
@@ -35,17 +38,9 @@ export default function TodoItem({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  text: {
-    fontSize: 18,
-  },
-  // The line-through strikes through the text and the gray color helps distinguish completed tasks from those still in progress.
-  completedText: {
-    textDecorationLine: 'line-through',
-    color: '#888',
-  },
+    container: {
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+    },
 });

@@ -35,6 +35,18 @@ export default function App(): ReactElement {
     setNewTodo('');
   };
 
+  const toggleTodo = (id: string): void => {
+    // Go through all the tasks and create a new table.
+    setTodos((previousTodos: Todo[]) =>
+      previousTodos.map((todo: Todo) =>
+        todo.id === id
+          // If the identifier matches, the following is performed
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Todo List</Text>
@@ -52,7 +64,9 @@ export default function App(): ReactElement {
       <FlatList<Todo>
         data={todos}
         keyExtractor={(item: Todo): string => item.id}
-        renderItem={({ item }) => <TodoItem todo={item} />}
+        renderItem={({ item }) => (
+          <TodoItem todo={item} onToggle={toggleTodo} />
+        )}
       />
     </View>
   );
