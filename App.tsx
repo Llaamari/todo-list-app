@@ -5,10 +5,12 @@ import {
   Text,
   TextInput,
   Button,
+  FlatList,
   StyleSheet,
 } from 'react-native';
 
 import type { Todo } from './types/Todo';
+import TodoItem from './components/TodoItem';
 
 export default function App(): ReactElement {
   // Task list status variable
@@ -29,8 +31,7 @@ export default function App(): ReactElement {
       completed: false,
     };
 
-    // Add a task to the list
-    setTodos([...todos, todo]);
+    setTodos((previousTodos: Todo[]) => [...previousTodos, todo]);
     setNewTodo('');
   };
 
@@ -47,11 +48,12 @@ export default function App(): ReactElement {
 
       <Button title="Add Task" onPress={addTodo} />
 
-      {todos.map((todo: Todo) => (
-        <Text key={todo.id} style={styles.todoText}>
-          {todo.text}
-        </Text>
-      ))}
+      {/* A list whose elements are of type “Todo” */}
+      <FlatList<Todo>
+        data={todos}
+        keyExtractor={(item: Todo): string => item.id}
+        renderItem={({ item }) => <TodoItem todo={item} />}
+      />
     </View>
   );
 }
@@ -73,9 +75,5 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
-  },
-  todoText: {
-    fontSize: 18,
-    marginTop: 15,
   },
 });
